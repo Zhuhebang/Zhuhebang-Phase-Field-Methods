@@ -58,3 +58,47 @@ def writeMatrix2File(filename, data_array):
               data_format = "{:1}"+"{:"+f"{entry_length-1}.{per}"+ "E}"
               data_string = "".join(str(" ")+str(num).rjust(int_len - 1) for num in data_index)  + data_format.format(" ", data_array[ii,k,j,i]) + " \n"
               f.write(data_string)
+
+def write_structure_to_file(filename, nx, ny, nz, phip, phis, phim, phiv, structure_type):
+  # 配置数据的格式化选项
+  int_len = 5  # 整数长度
+  entry_length = 15  # 每个数据条目的总长度
+  per = 6  # 小数点后保留的精度
+  with open(filename, 'w') as f:
+    if structure_type == 1:
+      # 写入标题
+      f.write("x, y, z, phip, phis, phim, phiv\n")
+      # 遍历网格并写入数据
+      for ii in range(nx):
+        for jj in range(ny):
+          for kk in range(nz):
+            data_index = [ii, jj, kk]
+            data_array = [phip[ii, jj, kk], phis[ii, jj, kk], phim[ii, jj, kk], phiv[ii, jj, kk]]
+            data_format = "{:1}" + "{:" + f"{entry_length - 1}.{per}" + "E}"
+            data_string = "".join(str(" ") + str(num).rjust(int_len - 1) for num in data_index)
+            for data_val in data_array:
+              data_string += data_format.format(" ", data_val) + " \n"
+            f.write(data_string)
+    elif structure_type == 2:
+      # 写入标题
+      f.write("x, y, z, phase_code\n")
+      # 遍历网格并根据相位写入数据
+      for ii in range(nx):
+        for jj in range(ny):
+          for kk in range(nz):
+            # 检查相位，确定相位代码
+            phase_code = 0
+            if phip[ii, jj, kk] == 1.0:
+              phase_code = 1
+            elif phis[ii, jj, kk] == 1.0:
+              phase_code = 2
+            elif phiv[ii, jj, kk] == 1.0:
+              phase_code = 3
+            elif phim[ii, jj, kk] == 1.0:
+              phase_code = 4
+            # 写入数据，使用相同的格式
+            data_index = [ii, jj, kk]
+            data_format = "{:1}" + "{:" + f"{entry_length - 1}.{per}" + "E}"
+            data_string = "".join(str(" ") + str(num).rjust(int_len - 1) for num in data_index)
+            data_string += data_format.format(" ", phase_code) + " \n"
+            f.write(data_string)
