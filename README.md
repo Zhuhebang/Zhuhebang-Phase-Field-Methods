@@ -32,3 +32,5 @@
 - b. 另外一种应该是x, y, z, phi，最后的phi就是相编号，比如先假设p, s, v, m各自分别对应1,  2, 3, 4号相，那phi的值就是1234
 
 3. 在scripts的generate_structure里面，从读的toml关键字里先判断一下是什么类型的结构。比如加一个target_program的关键字，判断如果等于muBreakdown，就采用当前breakdown这一套设置的值，原本程序已有的可以都放到muPREDICT这种target_program的情况下。
+
+＊＊ hello world **
