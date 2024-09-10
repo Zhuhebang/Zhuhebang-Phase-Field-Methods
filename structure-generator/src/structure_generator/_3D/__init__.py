@@ -1,1 +1,2 @@
-__all__=["generate_comp_Icase0"]
+__all__=["iniconf",
+         "generate_phi",]

@@ -43,7 +43,7 @@ def generate_structure():
         phim, phip, phis, phiv = generate_phi(nx, ny, nz, rr, shell_thickness, ptclnum, iseed)
 
         # 输出结构到文件
-        output_file = output["output_file"]
+        output_file = output["structure.in"]
         print(f"Writing muBreakdown structure to {output_file}")
         write_structure_to_file(output_file, nx, ny, nz, phip, phis, phim, phiv, 2)  # 输出类型为2
 
