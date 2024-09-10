@@ -4,7 +4,7 @@ USE invert
 IMPLICIT NONE
 
 INCLUDE 'fftw3.f'
-      
+!------------------------------------------------------------------------------------------------      
 INTEGER :: ii,jj,kk,i,j,k,l,n
 INTEGER :: kstep,nstep,np0,np1
 REAL*8 :: input(nx,ny,nz)
@@ -41,7 +41,7 @@ ALLOCATE(eta(nx,ny,nz),force(nx,ny,nz))
 ALLOCATE(etak(nx21,ny,nz),forcek(nx21,ny,nz))
 ALLOCATE(G_elec(nx,ny,nz),Gc(nx,ny,nz))
 ALLOCATE(fsepar(nx,ny,nz),fgrad(nx,ny,nz),felec(nx,ny,nz))
-
+!-----------------------------------------------------------------------------------------
 OPEN(UNIT = 1,FILE = 'input.in')
 READ(1,*)dt,nstep
 READ(1,*)np0,np1
@@ -118,7 +118,7 @@ Eksp = Eksp*1.0E-9
 Ekss = Ekss*1.0E-9
 Eksv = Eksv*1.0E-9
 Eksc = Eksc*1.0E-9
-
+!----------------------------------------------------------------------------------
 !FFTW plans for forward and backward transforms
 CALL dfftw_plan_dft_r2c_3d(p_up, nx, ny, nz, input, output, FFTW_MEASURE)
 CALL dfftw_plan_dft_c2r_3d(p_dn, nx, ny, nz, output, input, FFTW_MEASURE) 
@@ -137,29 +137,90 @@ phim = 0.0
 phis = 0.0
 phiv = 0.0
 !GOTO 100
+!-----------------------------------------------------------------------------------
 
+! 读取结构文件
+OPEN(UNIT = 1, FILE = 'structure.in')
+
+! 假设存在一个变量 structure_type, 用来区分文件类型
+! structure_type == 1 表示第一种结构
+! structure_type == 2 表示第二种结构
+
+IF (structure_type == 1) THEN
+    ! 第一种结构类型，文件中包含四个相场变量 phip, phis, phim, phiv
+    DO n = 1, nx * ny * nz
+        READ(1,*) i, j, k, pp, ps, pm, pv  ! 从文件读取每个相场变量
+        ii = i
+        jj = j
+        kk = k
+        phip(ii, jj, kk) = pp  ! 填料相
+        phis(ii, jj, kk) = ps  ! 壳层相
+        phim(ii, jj, kk) = pm  ! 基体相
+        phiv(ii, jj, kk) = pv  ! 孔洞相
+    END DO
+
+ELSE IF (structure_type == 2) THEN
+    ! 第二种结构类型，文件中包含四位字符串，表示相场的状态
+    DO n = 1, nx * ny * nz
+        READ(1,*) i, j, k, phase_code_str  ! 从文件读取四位相位代码
+        ii = i
+        jj = j
+        kk = k
+
+        ! 解析四位字符串中的每一位，并将其转换为相场变量
+        ! 第一位对应 phip，第二位对应 phis，第三位对应 phiv，第四位对应 phim
+        IF (phase_code_str(1:1) == '1') THEN
+            phip(ii, jj, kk) = 1.0
+        ELSE
+            phip(ii, jj, kk) = 0.0
+        END IF
+
+        IF (phase_code_str(2:2) == '2') THEN
+            phis(ii, jj, kk) = 1.0
+        ELSE
+            phis(ii, jj, kk) = 0.0
+        END IF
+
+        IF (phase_code_str(3:3) == '3') THEN
+            phiv(ii, jj, kk) = 1.0
+        ELSE
+            phiv(ii, jj, kk) = 0.0
+        END IF
+
+        IF (phase_code_str(4:4) == '4') THEN
+            phim(ii, jj, kk) = 1.0
+        ELSE
+            phim(ii, jj, kk) = 0.0
+        END IF
+    END DO
+ENDIF
+
+CLOSE(1)
+
+
+!-----------------------------------------------------------------------------------
 !DO 2000 sample = 1,num_samples
-IF(np0 == 1) THEN !read from a given structure
- OPEN(UNIT = 1, FILE = 'given_structure.dat')
-  DO n=1,nx*ny*nz
-   READ(1,*)i,j,k,pp,ps,pm,pv
-   ii = i
-   jj = j
-   kk = k
-   phip(ii,jj,kk) = pp
-   phis(ii,jj,kk) = ps
-   phim(ii,jj,kk) = pm
-   phiv(ii,jj,kk) = pv
-  END DO
- CLOSE(1)
-ELSE
-!Start to create a sample with random microstructure
- phicp = 0.0
- phicm = 0.0
- phics = 0.0
-
- shell_thickness = 0.0 !shell thickness
- ic = 1
+!IF(np0 == 1) THEN !read from a given structure
+! OPEN(UNIT = 1, FILE = 'given_structure.dat')
+!  DO n=1,nx*ny*nz
+!   READ(1,*)i,j,k,pp,ps,pm,pv
+!   ii = i
+!   jj = j
+!   kk = k
+!   phip(ii,jj,kk) = pp
+!   phis(ii,jj,kk) = ps
+!   phim(ii,jj,kk) = pm
+!   phiv(ii,jj,kk) = pv
+!  END DO
+! CLOSE(1)
+!ELSE
+!!Start to create a sample with random microstructure
+! phicp = 0.0
+! phicm = 0.0
+! phics = 0.0
+!
+! shell_thickness = 0.0 !shell thickness
+! ic = 1
 !GOTO 111
 !CALL create_random(circle)
 !circle(1) = circle(1)*(nx - 24) + 12  !coordinate of x
@@ -167,83 +228,83 @@ ELSE
  !circle(3) = (circle(3) + 1.0)*16.0         !random Radius
 !circle(3) = 8.0         !random Radius
  !Save the first circle to circles
- circle(1) = DBLE(nx/2)  ��˫����
- circle(2) = DBLE(ny/2)
- circle(3) = 4
- R1 = circle(3)
- R2 = circle(3) + shell_thickness
- circles(ic,1) = circle(1)
- circles(ic,2) = circle(2)
- circles(ic,3) = R1 
- circles(ic,4) = R2
- CALL iniconf(INT(circle(1)),INT(circle(2)),nz,R1,phi1)  ��INT����ȡ��
- CALL iniconf(INT(circle(1)),INT(circle(2)),nz,R2,phi2)
- phim = 1.0 - phi2
- phis = phi2 - phi1
- phip = phi1
- phicm(ic,:,:,:) = phim(:,:,:)
- phics(ic,:,:,:) = phis(:,:,:)
- phicp(ic,:,:,:) = phip(:,:,:)
- 
-111 IF(ic >= particle_num) GOTO 112
-  CALL create_random(circle)
+!circle(1) = DBLE(nx/2)  
+!circle(2) = DBLE(ny/2)
+!circle(3) = 4
+!R1 = circle(3)
+!R2 = circle(3) + shell_thickness
+!circles(ic,1) = circle(1)
+!circles(ic,2) = circle(2)
+!circles(ic,3) = R1 
+!circles(ic,4) = R2
+!CALL iniconf(INT(circle(1)),INT(circle(2)),nz,R1,phi1) 
+!CALL iniconf(INT(circle(1)),INT(circle(2)),nz,R2,phi2)
+!phim = 1.0 - phi2
+!phis = phi2 - phi1
+!phip = phi1
+!phicm(ic,:,:,:) = phim(:,:,:)
+!phics(ic,:,:,:) = phis(:,:,:)
+!phicp(ic,:,:,:) = phip(:,:,:)
+!
+!11 IF(ic >= particle_num) GOTO 112
+! CALL create_random(circle)
 ! PRINT*,circle 
-  circle(1) = circle(1)*(nx - 20) + 10  !coordinate of x
-  circle(2) = circle(2)*(ny - 20) + 10  !coordinate of y
-  !circle(3) = (circle(3) + 1.0)*16.0         !random Radius
-  circle(3) = 8.0         !random Radius
-  R1 = circle(3)
-  R2 = circle(3) + shell_thickness
-  DO i=1,ic !Determine if the created circle is wanted
-   dd = SQRT( (circle(1) - circles(i,1))**2 + (circle(2) - circles(i,2))**2 )
-   IF(dd <= (circles(i,4)+R2+14)) THEN
+! circle(1) = circle(1)*(nx - 20) + 10  !coordinate of x
+! circle(2) = circle(2)*(ny - 20) + 10  !coordinate of y
+! !circle(3) = (circle(3) + 1.0)*16.0         !random Radius
+! circle(3) = 8.0         !random Radius
+! R1 = circle(3)
+! R2 = circle(3) + shell_thickness
+! DO i=1,ic !Determine if the created circle is wanted
+!  dd = SQRT( (circle(1) - circles(i,1))**2 + (circle(2) - circles(i,2))**2 )
+!  IF(dd <= (circles(i,4)+R2+14)) THEN
 !   PRINT*,'Give up the unwanted and recreate'
-    GOTO 111
-   ENDIF
-  END DO
-  ic = ic + 1
-  !Save the wanted circle to circles
-  circles(ic,1) = circle(1)
-  circles(ic,2) = circle(2)
-  circles(ic,3) = R1
-  circles(ic,4) = R2
-  CALL iniconf(INT(circle(1)),INT(circle(2)),nz,R1,phi1)
-  CALL iniconf(INT(circle(1)),INT(circle(2)),nz,R2,phi2)
-  phim = 1.0 - phi2
-  phis = phi2 - phi1
-  phip = phi1
-  phicm(ic,:,:,:) = phim(:,:,:)
-  phics(ic,:,:,:) = phis(:,:,:)
-  phicp(ic,:,:,:) = phip(:,:,:)
- !PRINT*,'ic= ',ic
- GOTO 111
-
-112 phi = 0.0
- phip = 0.0
- phim = 0.0
- phis = 0.0
- phiv = 0.0
- DO nn=1,particle_num
-  IF(MOD(nn,200) == 0) THEN   �����ຯ��
-   phiv(:,:,:) = phiv(:,:,:) + phicp(nn,:,:,:)
-  ELSE
-   phip(:,:,:) = phip(:,:,:) + phicp(nn,:,:,:)
-   phis(:,:,:) = phis(:,:,:) + phics(nn,:,:,:)
-  ENDIF
- END DO
- phim(:,:,:) = 1.0 - phip(:,:,:) - phis(:,:,:) - phiv(:,:,:)
-ENDIF
- !End of creating a sample with random microstructure
-
- OPEN(UNIT = 2, FILE = 'structure.dat')
-  DO kk=1,nz
-   DO jj=1,ny
-    DO ii=1,nx
-     WRITE(2,2002)ii,jj,kk,phip(ii,jj,kk),phis(ii,jj,kk),phim(ii,jj,kk),phiv(ii,jj,kk)
-    END DO
-   END DO
-  END DO
-
+!   GOTO 111
+!  ENDIF
+! END DO
+! ic = ic + 1
+! !Save the wanted circle to circles
+! circles(ic,1) = circle(1)
+! circles(ic,2) = circle(2)
+! circles(ic,3) = R1
+! circles(ic,4) = R2
+! CALL iniconf(INT(circle(1)),INT(circle(2)),nz,R1,phi1)
+! CALL iniconf(INT(circle(1)),INT(circle(2)),nz,R2,phi2)
+! phim = 1.0 - phi2
+! phis = phi2 - phi1
+! phip = phi1
+! phicm(ic,:,:,:) = phim(:,:,:)
+! phics(ic,:,:,:) = phis(:,:,:)
+! phicp(ic,:,:,:) = phip(:,:,:)
+!!PRINT*,'ic= ',ic
+!GOTO 111
+!
+!12 phi = 0.0
+!phip = 0.0
+!phim = 0.0
+!phis = 0.0
+!phiv = 0.0
+!DO nn=1,particle_num
+! IF(MOD(nn,200) == 0) THEN   
+!  phiv(:,:,:) = phiv(:,:,:) + phicp(nn,:,:,:)
+! ELSE
+!  phip(:,:,:) = phip(:,:,:) + phicp(nn,:,:,:)
+!  phis(:,:,:) = phis(:,:,:) + phics(nn,:,:,:)
+! ENDIF
+!END DO
+!phim(:,:,:) = 1.0 - phip(:,:,:) - phis(:,:,:) - phiv(:,:,:)
+!NDIF
+!!End of creating a sample with random microstructure
+!
+!OPEN(UNIT = 2, FILE = 'structure.dat')
+! DO kk=1,nz
+!  DO jj=1,ny
+!   DO ii=1,nx
+!    WRITE(2,2002)ii,jj,kk,phip(ii,jj,kk),phis(ii,jj,kk),phim(ii,jj,kk),phiv(ii,jj,kk)
+!   END DO
+!  END DO
+! END DO
+!------------------------------------------------------------------------------------------------------
  phi(:,:,:) = phi(:,:,:) + 4.0*phim(:,:,:) + 8.0*phis(:,:,:) + 12.0*phip(:,:,:) + 16.0*phiv(:,:,:)
 !100 DO kk=1,nz
 !  DO jj=1,ny
@@ -292,8 +353,7 @@ ENDIF
  DO kk=1,nz
   DO jj=1,ny
    DO ii=1,nx
-    IF((ABS(ii - nx/2) <= 6).AND.(ABS(jj - ny/2) < 1)) eta(ii,jj,kk) = 1.0 ������ֵ
-   END DO
+    IF((ABS(ii - nx/2) <= 6).AND.(ABS(jj - ny/2) < 1)) eta(ii,jj,kk) = 1.0
   END DO
  END DO
  
