@@ -1,0 +1,21 @@
+{
+	"name": "AIR",
+	"Comment": "",
+	"Reference": "Li Y.L. et al., PRB 73 18(2006)184112.",
+	"Normalizer":{"P0": "0.10"},
+	"Landau": {
+		"a1": "0",
+		"a11": "0",
+		"a12": "0"
+	},
+	"Electrostrictive": {
+		"Q11": "0",
+		"Q12": "0",
+		"Q44": "0"
+	},
+	"ElasticStiffness": {
+		"C11": "0",
+		"C12": "0",
+		"C44": "0"
+	}
+}

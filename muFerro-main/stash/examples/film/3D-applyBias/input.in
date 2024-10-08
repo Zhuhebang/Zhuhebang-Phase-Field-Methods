@@ -1,0 +1,28 @@
+# BTO film  
+# Start from equilibrium poly/single domain Polar.in
+
+SYSDIM = 128 128 36
+REALDIM = 128 128 36
+LBULK = False
+FILMTHICK = 20 
+SUBTHICK = 12
+
+TEM = 298
+
+GRADPCON = 0.6 -0.6 0.6  
+
+TTOTAL = 50000
+TSTART = 0
+TOUTPUT = 2000
+
+LELAS = t
+CELASBC = 0 	
+MISFIT = -0.005 -0.005 0.0
+
+LELEC = t
+CELECBC = 2	
+BIASTOP = 0.2 
+DIELECON = 45 45 45
+
+LOUTELAS = T
+LOUTELEC = T

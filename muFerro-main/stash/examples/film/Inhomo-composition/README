@@ -1,0 +1,9 @@
+1. muFerro is the phase-field simulation program you're going to run
+2. pto_test contains an example for thin-film pto (using the pzt thermodynamic potential with composition set to 1)
+3. layer_test contains a small example for layered thin-film (using the pzt potential with different composition at different z)
+4. nt_vtk.py is a python module to help you create the "comp.in" file
+5. comp.py import the nt_vtk module to create the "comp.in" file based on a numpy array
+6. layer_test/input.in is the file that control the whole simulation program
+7. layer_test/comp.in is the file that tell the program the composition distribution
+8. layer_test/pot.in is the file that give the program the necessary physical parameters, these parameters are used as the default value.
+9. layer_test/pot1.in similar to pot.in but for the MATERIAL1, only the landau parameters in this file is used, since we now only support inhomogeneous distribution of landau coefficients according to composition. If you also need it for elastic constant, please contact us again.

@@ -1,0 +1,29 @@
+{
+	"name": "PMN-PT O phase",
+	"Comment": "",
+	"Reference": "Li et al., NC 2016, SI, PNR phase",
+	"Prerequisite": {
+		"CurieT": "620"
+	},
+	"Normalizer": {
+		"P0": "0.41"
+	},
+	"Landau": {
+		"a1": "2.2*(TEM-620)*1E5",
+		"a11": "-2.67*1E8",
+		"a12": "2.67E8",
+		"a111": "3.33E9",
+		"a112": "3.33E8",
+		"a123": "3.0E10"
+	},
+	"Electrostrictive": {
+		"Q11": "0.089",
+		"Q12": "-0.030",
+		"Q44": "0.034"
+	},
+	"ElasticCompliance": {
+		"S11": "20*1E-12",
+		"S12": "-7.5E-12",
+		"S44": "20E-12"
+	}
+}

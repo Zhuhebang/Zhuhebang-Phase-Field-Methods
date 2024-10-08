@@ -1,0 +1,6 @@
+[formatting]
+align_entries = true
+
+[schema]
+path = "./schema/input.json"
+enabled = true

@@ -1,0 +1,5 @@
+_build/
+_doxygen/
+api
+node_modules
+dist/

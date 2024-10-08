@@ -1,0 +1,43 @@
+{
+    "version": 2,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 20,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "my-intel-Debug",
+            "inherits": "linux-Debug",
+            "displayName": "Linux x64 intel Release",
+            "description": "Sets Ninja, intel compilers, x64 architecture, release build, build/install directory",
+            "cacheVariables": {
+                "mupro_ROOT": "/home/xcheng/codes/muprosoftware/PhaseFieldSDK/out/install/linux-intel-Debug"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "my-intel-Debug",
+            "configurePreset": "my-intel-Debug"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "my-intel-Debug",
+            "configurePreset": "my-intel-Debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": true
+            }
+        }
+    ],
+    "vendor": {
+        "example.com/ExampleIDE/1.0": {
+            "autoFormat": false
+        }
+    }
+}

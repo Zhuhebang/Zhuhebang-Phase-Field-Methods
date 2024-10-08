@@ -1,0 +1,30 @@
+{
+	"name": "BiFeO3-Zhang-2008",
+	"Comment": "BFO bulk potential (Helmholtz potential, not applicable)",
+	"Reference": "JAP (2007)",
+	"CurieT": 1103,
+	"a0": 394450000,
+	"p0": 0.52,
+	"Landau": {
+		"a1": "4.9*10^5*(TEM-1103)",
+		"a11": 6.5*10^8,
+		"a12": 1.0*10^8,
+		"a111": 0,
+		"a112": 0,
+		"a123": 0,
+		"a1111": 0,
+		"a1112": 0,
+		"a1122": 0,
+		"a1123": 0
+	},
+	"Electrostrictive": {
+		"Q11": 0.032,
+		"Q12": -0.016,
+		"Q44": 0.04
+	},
+	"ElasticStiffness": {
+		"C11": 3.02e11,
+		"C12": 1.62e11,
+		"C44": 0.68e11
+	}
+}

@@ -1,0 +1,32 @@
+{
+	"name": "BaTiO3",
+	"Comment": "Consider the change of Landau coefficients under hydrostatic pressure",
+	"Reference": "Wang J.J. et al., JAP 2010 108(11)",
+	"Prerequisite": {
+		"CurieT": "390",
+		"a0": "42769496",
+		"p0": "0.26"
+	},
+	"Landau": {
+		"a1": "6.0E+007*(Coth(120/T)-Coth(Tc/T))",
+		"a11": "-1.154E+008*(1+0.037*(sigma11+sigma22+sigma33))",
+		"a12": "6.530E+008*(1+0.037*(sigma11+sigma22+sigma33))",
+		"a111": "-2.106E+009*(1+0.023*(sigma11+sigma22+sigma33))",
+		"a112": "4.091E+009*(1+0.023*(sigma11+sigma22+sigma33))",
+		"a123": "-6.688E+009*(1+0.023*(sigma11+sigma22+sigma33))",
+		"a1111": "75900000000",
+		"a1112": "-21930000000",
+		"a1122": "-22210000000",
+		"a1123": "24160000000"
+	},
+	"Electrostrictive": {
+		"Q11": "0.11",
+		"Q12": "-0.045",
+		"Q44": "0.029"
+	},
+	"ElasticStiffness": {
+		"C11": "178000000000",
+		"C12": "96400000000",
+		"C44": "122000000000"
+	}
+}

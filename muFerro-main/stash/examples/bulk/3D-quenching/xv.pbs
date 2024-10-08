@@ -1,0 +1,12 @@
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=24:00:00
+#PBS -l pmem=2gb
+#PBS -j oe
+#PBS -N test-3d-quenching
+#PBS -M bzw133@psu.edu
+
+cd $PBS_O_WORKDIR
+module load openmpi/intel
+module load fftw/intel/double/3.3.2
+
+time mpirun /gpfs/home/bzw133/work/DevelopingCodes/Free-format/final-cxx/Ferro/MUPRO-ferro.exe | tee -a run.log

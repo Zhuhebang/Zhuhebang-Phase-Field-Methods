@@ -1,0 +1,21 @@
+material = 'material.toml'
+
+[system]
+simulation_grid = [32, 32, 32]
+length_per_grid = [1, 1, 1]
+initial_polarization = [0.7, 0, 0]
+permittivity = [40, 40, 40]
+temperature = 298
+timestep_start = 0
+timestep_total = 101
+dt = 0.01
+noise_magnitude = 0.1
+noise_seed = 1
+elastic_BC = 1
+
+[normalizer]
+p0 = 0.7
+l0 = 1e-9
+
+[output]
+interval = 100

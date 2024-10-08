@@ -1,0 +1,105 @@
+Naming of potential files: 
+abbrevication of material + first author of the pubished paper + year + .json
+e.g. 
+BTO-Wang-2010.json
+
+put curie temeprature(CurieT), curie contant(Curie), and other parameters(Z1,Z2,a0), into prerequisite 
+
+temperature should use TEM
+
+composition should use XF
+
+# stress should use SIGMA11,SIGMA22,SIGMA33
+
+all things should be within " " as expressions
+
+all numbers can be either expression, e.g., 1.20*10^12, or C style, e.g., 1.20E12, 1.20E+012, etc. 
+
+Add references in each subsets, e.g., Electrostrictive, ElasticCompliance, etc. 
+
+"name" only contains the formula of materials 
+
+Pay attention to upper or lower cases for all keys
+
+All subset keys: 
+1. name
+2. Comment
+3. Reference
+4. Prerequisite
+	CurieT
+	Curie
+		range
+		min
+		max
+		Value
+	Z1
+	Z2
+	a0
+5. Landau
+	a1
+	a11
+	a12
+	a111
+	a112
+	a123
+	a1111
+	a1112
+	a1122
+	a1123
+6. Electrostrictive
+	Q11
+	Q12
+	Q44
+7. ElasticCompliance
+	range
+	min
+	max
+	S11
+	S12
+	S44
+8. ElasticStiffness
+	range
+	min
+	max
+	C11
+	C12
+	C44
+9. OctahedralRotation
+	b1
+	b11
+	b12
+	b111
+	b112
+	b123
+	b1111
+	b1112
+	b1122
+	b1123
+10. Rotostrictive
+	L11
+	L12
+	L44
+11. PolarRotoCoupling
+	t11
+	t12
+	t44
+12. BackgroundPermittivity
+	eps11
+	eps12
+	eps44
+13. Flexocoupling
+	f11
+	f12
+	f44
+14. Flexoelectric
+	u11
+	u12
+	u44
+15. PolarGradientCoefficients
+	G11
+	G12
+	G44
+16. RotoGradientCoefficients
+	V11
+	V12
+	V44

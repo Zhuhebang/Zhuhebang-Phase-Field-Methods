@@ -1,0 +1,30 @@
+{
+	"name": "BaTiO3",
+	"Comment": "",
+	"Reference": "Bell A.J. & Cross L.E., Ferroelectrics, 59, 1(1984): 197-203",
+	"Prerequisite": {
+		"CurieT": "381"
+	},
+	"Normalizer": {
+		"P0": "0.26"
+	},
+	"Landau": {
+		"a1": "3.34*10^5*(TEM-CurieT)",
+		"a11": "4.69*10^6*(TEM-393)-2.02*10^8",
+		"a12": "3.230*10^8",
+		"a111": "-5.52*10^7*(TEM-393)+2.76*10^9",
+		"a112": "4.470*10^9",
+		"a123": "4.910*10^9"
+	},
+	"Electrostrictive": {
+		"Reference":"F. Jona and G. Shirane, Ferroelectric Crystals (Macmillan, New York, 1962)",
+		"Q11": "0.1",
+		"Q12": "-0.034",
+		"Q44": "0.029"
+	},
+	"ElasticStiffness": {
+		"C11": "1.78*10^11",
+		"C12": "0.964*10^11",
+		"C44": "1.22*10^11"
+	}
+}

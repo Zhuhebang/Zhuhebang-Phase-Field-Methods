@@ -1,0 +1,29 @@
+{
+	"name": "BiFeO3",
+	"Comment": "BFO film potential 6th order, fitted by Gyang Sheng 2010, first published in supplementary of the reference",
+	"Reference": "Vasudevan R.K., et al., Nano Lett 2012 12(11) p: 5524-5531",
+	"Prerequisite": {
+		"CurieT": "1103"
+	},
+	"Normalizer": {
+		"P0": "0.52"
+	},
+	"Landau": {
+		"a1": "4.64385*10^5*(TEM-CurieT)",
+		"a11": "2.29047*10^8",
+		"a12": "3.06361*10^8",
+		"a111": "5.99186*10^7",
+		"a112": "-3.33980*10^5",
+		"a123": "-1.77754*10^8"
+	},
+	"Electrostrictive": {
+		"Q11": "0.032",
+		"Q12": "-0.016",
+		"Q44": "0.04"
+	},
+	"ElasticStiffness": {
+		"C11": "3.02e11",
+		"C12": "1.62e11",
+		"C44": "0.68e11"
+	}
+}

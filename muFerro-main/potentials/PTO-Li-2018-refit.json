@@ -1,0 +1,29 @@
+{
+	"name": "PbTiO3",
+	"Comment": "Modified according to Javier Junquera's DFT 2018",
+	"Reference": "Li Y.L. et al., Acta Materialia 2002 50(2)",
+	"Prerequisite": {
+		"CurieT": "752.15"
+	},
+	"Normalizer": {
+		"P0": "0.757"
+	},
+	"Landau": {
+		"a1": "1.08718*3.8*10^5*(TEM-CurieT)",
+		"a11": "1.08718*-7.3*10^7",
+		"a12": "7.5*0.38*10^8",
+		"a111": "1.08718*2.6*10^8",
+		"a112": "6.1*1.0*10^8",
+		"a123": "-13*(-3.7)*10^9"
+	},
+	"Electrostrictive": {
+		"Q11": "0.089",
+		"Q12": "-0.026",
+		"Q44": "0.03375"
+	},
+	"ElasticStiffness": {
+		"C11": "174600000000",
+		"C12": "79370000000",
+		"C44": "111100000000"
+	}
+}

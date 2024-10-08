@@ -1,0 +1,26 @@
+{
+	"name": "BiFeO3",
+	"Comment": "BFO film potential 4-th order",
+	"Reference": "Zhang J.X. et al., JAP 2008, 103(9)",
+	"Prerequisite": {
+		"CurieT": "1103"
+	},
+	"Normalizer": {
+		"P0": "0.52"
+	},
+	"Landau": {
+		"a1": "4.9*10^5*(TEM-CurieT)",
+		"a11": "5.42*10^8",
+		"a12": "1.54*10^8"
+	},
+	"Electrostrictive": {
+		"Q11": "0.032",
+		"Q12": "-0.016",
+		"Q44": "0.04"
+	},
+	"ElasticStiffness": {
+		"C11": "3.0e11",
+		"C12": "1.62e11",
+		"C44": "0.68e11"
+	}
+}

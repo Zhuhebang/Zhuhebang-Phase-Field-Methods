@@ -1,0 +1,29 @@
+# BTO bulk  
+
+SYSDIM = 1 1 1024 
+REALDIM = 0.0625 0.0625 64
+LBULK = True 
+
+TEM = 298
+
+# Use value from pot.in
+GRADPCON = 0.6 -0.6 0.6  
+
+TTOTAL = 10000
+TSTART = 0
+TOUTPUT = 1000
+
+LELAS = t
+CELASBC = 2 	
+STRESS = 0.0 0.0 0.0 0.0 0.0 0.0
+
+LELEC = t
+CELECBC = 2	
+DIELECON = 45 45 45
+
+#Flexo coefficients
+# from Ponomerava PRB 2012 for BaTiSrO3
+#FLEXOCON = 5.1 3.3 0.045
+
+#LOUTFLEX = T
+LOUTFORC = F

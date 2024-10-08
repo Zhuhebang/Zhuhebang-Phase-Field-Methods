@@ -1,0 +1,34 @@
+name: muFerro Build & Test
+on:
+  push:
+    paths:
+      - ".github/workflows/build_test.yml"
+      - "src"
+      - "CMake*"
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+jobs:
+  linux:
+    runs-on: [self-hosted, Linux]
+    steps:
+      - name: Basic info
+        run: |
+          echo "Build for ${{ github.ref }} branch in ${{ github.repository }} repository."
+          echo "Job triggered by ${{ github.event_name }}, on self-hosted ${{ runner.os }}."  
+            echo "Log level: ${{ github.event.inputs.logLevel }}"
+          echo "Tags: ${{ github.event.inputs.tags }}"
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+          fetch-depth: 0
+          token: ${{ secrets.FULLACCESS }}
+      - name: Configure
+        run: source scripts/linux/cmake_configure.sh Release
+      - name: Build
+        run: source scripts/linux/cmake_build.sh Release
+      - name: Test
+        run: source scripts/linux/cmake_build.sh Release test

@@ -1,0 +1,232 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage{longtable}
+\usepackage{multirow}
+
+\title{MUPRO-Ferroelectrics}
+\author{bzw133 }
+\date{April 2017}
+
+\begin{document}
+
+\maketitle
+
+\clearpage{}
+
+{
+\centering
+\tableofcontents
+}
+
+\clearpage{}
+
+\section{MuFerro: an introduction}
+\subsection{Structure of the program}
+\subsection{Features}
+\subsection{A quick tutorial}
+
+\section{Installation of MuFerro}
+
+\section{Files used by MuFerro}
+\subsection{Input files}
+\subsubsection{Input.in}
+\subsubsection{Pot.in}
+\subsubsection{Polar.in} 
+\subsubsection{OctaTilt.in}
+\subsubsection{AFMtip.in}
+\subsection{Output files}
+\subsection{Other files}
+\subsubsection{pbs file for submitting tasks}
+\subsubsection{scripts for batch tasks}
+\subsubsection{scripts for postprocessing}
+
+\section{The Input.in File}
+
+\subsection{List of most important parameters}
+
+%\begin{table}[]
+%\centering
+%\caption{My caption}
+%\label{my-label}
+%\begin{tabular}{|c|l|l|l|l|}
+
+\begin{longtable}{|p{0.15\textwidth}|p{0.15\textwidth}|p{0.1\textwidth}|p{0.3\textwidth}|p{0.25\textwidth}|}
+\caption{Your caption here} % needs to go inside longtable environment
+\label{tab:myfirstlongtable}
+
+\hline
+ & \textbf{Tags} & \textbf{Class} & \multicolumn{1}{c}{\textbf{Default}} & \multicolumn{1}{c}{\textbf{Description}} \\ \hline
+\multirow{5}{*}{\textbf{System}} & SYSDIM & Vector & 10, 10, 10 & Grid points in x, y, z \\ \cline{2-5} 
+ & REALDIM & Vector & Same as SYSDIM & Real length along x, y, z \\ \cline{2-5} 
+ & SUBTHICK & Scalar & 0 & Grid points for substrate thickness \\ \cline{2-5} 
+ & FILMTHICK & Vector & 0 & Grid points for film thickness \\ \cline{2-5} 
+ & ROTANGLE & Vector & 0.0, 0.0, 0.0 & Euler rotation angle around z, x', z'' \\ \hline
+\multirow{4}{*}{\textbf{Time}} & TTOTAL & Scalar & 1000 & Total timesteps \\ \cline{2-5} 
+ & TSTART & Scalar & 0 & Initial timestep \\ \cline{2-5} 
+ & TOUT & Scalar & 200 & Time interval for output \\ \cline{2-5} 
+ & TDELTA & Scalar & 0.01 & Delta t of TDGL \\ \hline
+\multirow{2}{*}{\textbf{Solvers}} & LINHOM & Flag & FALSE & Flag for inhomogeneous solver \\ \cline{2-5} 
+ & CDER & Choice & \begin{tabular}[c]{@{}l@{}}0- step-corrected FFT\\ 1- FDM\\ 2- normal FFT\end{tabular} & Choices of derivative solver \\ \hline
+\textbf{Thermal} & TEM & Scalar & 298.0 & Temperature in Kelvin \\ \hline
+\multirow{5}{*}{\textbf{Polarization}} & CPOLARBC & Choice & \begin{tabular}[c]{@{}l@{}}0- natural BC\\ 1- free BC\\ 2- blocked BC\\ 3- small extrapolation length\\ 4- zero bound charge\\ 5- large extrapolation length\end{tabular} & Choices of boundary condition,for Px, Py, Pz \\ \cline{2-5} 
+ & ETRLP & Vector & 0.0, 0.0, 0.0 & Extrapolation length of Px, Py, Pz in nm \\ \cline{2-5} 
+ & LPNOISE & Flag & FALSE & Flag of polarization noise \\ \cline{2-5} 
+ & PNOISMAG & Scalar & 0.1 & Magnitude of polarization noise \\ \cline{2-5} 
+ & PNOISEED & Scalar & 10 & Seed of polarization noise \\ \hline
+\multirow{6}{*}{\textbf{Elastic}} & LELAS & Flag & TRUE & Flag of elastic energy \\ \cline{2-5} 
+ & CELASBC & Choice & \begin{tabular}[c]{@{}l@{}}0- film\\ 1- bulk strain\\ 2- bulk stress\end{tabular} & Choices of elastic boundary conditions \\ \cline{2-5} 
+ & MISFIT & Vector & 0.0, 0.0, 0.0 & Misfit strain exx, eyy, exy \\ \cline{2-5} 
+ & STRAIN & Vector & 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 & Strain BC for bulk, exx, eyy, ezz, eyz, ezx, exy \\ \cline{2-5} 
+ & STRESS & Vector & 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 & Stress BC for bulk, sxx, syy, szz, syz, szx, sxy \\ \cline{2-5} 
+ & TIPRAD & Scalar & 50.0 & Tip radius in nm \\ \hline
+\multirow{5}{*}{\textbf{Electric}} & LELEC & Flag & TRUE & Flag of electric energy \\ \cline{2-5} 
+ & CELECBC & Choice & \begin{tabular}[c]{@{}l@{}}1- open circuit\\ 2- short circuit\\ 3- top open bottom short\\ 4- top short bottom open\\ 5- bulk\end{tabular} & Choices of electric boundary conditions \\ \cline{2-5} 
+ & TIPGAMMA & Scalar & 10.0 & Lortenz γ for tip in nm \\ \cline{2-5} 
+ & SCRBOT & Scalar & 0.0 & Screening factor of bottom electrode \\ \cline{2-5} 
+ & SCRTOP & Scalar & 0.0 & Screening factor of top electrode \\ \hline
+\textbf{Gradient} & GRADCON & Vector & 0.6, 0.0, 0.3 & Gradient energy tensor component g11, g12 and g44 \\ \hline
+\multirow{2}{*}{\textbf{Flexoelectric}} & LFLEXO & Flag & FALSE & Flag of flexoelectric energy \\ \cline{2-5} 
+ & FLEXOCON & Vector & 5.1, 3.3, 0.045 & Flexoelectric tensor component f11, f12, and f44 \\ \hline
+\multirow{5}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Oxygen \\ Octahedral \\ Rotation\end{tabular}}} & LOCTILT & Flag & FALSE & Flag of oxygen octahedral tilt \\ \cline{2-5} 
+ & GRADQCON & Vector & 1.0 0.0 0.5 & Gradient energy tensor of OOT component v11, v12, v44 \\ \cline{2-5} 
+ & LQNOISE & Flag & FALSE & Flag of OOT noise \\ \cline{2-5} 
+ & QNOISMAG & Scalar & 0.1 & Magnitude of OOT noise \\ \cline{2-5} 
+ & QNOISEED & Scalar & 10 & Seed of  OOT noise \\ \hline
+\multirow{6}{*}{\textbf{Outputs}} & LOUTLAND & Flag & FALSE & Flag of output Landau energy of polarization \\ \cline{2-5} 
+ & LOUTELAS & Flag & FALSE & Flag of output elastic energy \\ \cline{2-5} 
+ & LOUTELEC & Flag & FALSE & Flag of output elastic energy \\ \cline{2-5} 
+ & LOUTGRAD & Flag & FALSE & Flag of output gradient energy \\ \cline{2-5} 
+ & LOUTFLEX & Flag & FALSE & Flag of output flexoelectric fields \\ \cline{2-5} 
+ & LOUTFORC & Flag & FALSE & Flag of output driving forces \\ \hline
+
+\end{longtable}
+%\end{table}
+
+
+\subsection{CDER     }
+
+\subsection{CELASBC  }
+
+\subsection{CELECBC  }
+
+\subsection{CPOLARBC }
+
+\subsection{DIELECON }
+
+\subsection{ELECFIELD}
+
+\subsection{ETRLP    }
+
+\subsection{FILMTHICK}
+
+\subsection{FLEXOCON }
+
+\subsection{GRADPCON }
+
+\subsection{GRADQCON }
+
+\subsection{LAFMTIP  }
+
+\subsection{LELAS    }
+
+\subsection{LELEC    }
+
+\subsection{LFLEXO   }
+
+\subsection{LINHOM   }
+xx
+\subsection{LOCTILT  }
+
+\subsection{LOUTELAS }
+
+\subsection{LOUTELEC }
+
+\subsection{LOUTFLEX }
+
+\subsection{LOUTFORC }
+
+\subsection{LOUTGRAD }
+
+\subsection{LOUTLAND }
+
+\subsection{LPNOISE  }
+
+\subsection{LQNOISE  }
+
+\subsection{MISFIT   }
+
+\subsection{PNOISEED }
+
+\subsection{PNOISMAG }
+
+
+\subsection{QNOISEED }
+
+\subsection{QNOISMAG }
+
+\subsection{REALDIM  }
+
+\subsection{ROTANGLE }
+
+\subsection{SCREENTOP}
+
+\subsection{SCREENBOT}
+
+\subsection{STRAIN   }
+
+\subsection{STRESS   }
+
+\subsection{SUBTHICK }
+
+\subsection{SYSDIM   }
+
+\subsection{TDELTA   }
+
+\subsection{TEM      }
+
+\subsection{TIPGAMMA }
+
+\subsection{TIPRAD   }
+
+\subsection{TOUTPUT  }
+
+\subsection{TSTART   }
+
+\subsection{TTOTAL   }
+
+\clearpage{}
+\section{Theoretical Background}
+
+\subsection{Ginzburg-Landau-Devonshire (LGD) theory of ferroelectrics}
+This section describes the LGD theory of ferroelectrics briefly
+
+\subsection{Phase-field methods of ferroelectrics}
+This section describes the phase field method of ferroelectrics briefly 
+
+\subsection{Semi-implicit Fourier methods}
+This section shortly introduces the Semi-implicit Fourier method 
+
+\subsection{Micromechanics method of elastic and electric equations}
+This section describes hot to use micromechanics to solve the elastic and electric static equations using mixed boundary conditions
+
+\subsection{Iterative methods for inhomogeneous system}
+This section describes the iterative method for inhomogeneous material systems 
+
+\subsection{Step correction for taking derivatives}
+This section describes the step correction trick to get numerical derivative of a Heaviside function 
+
+\section{Examples}
+\subsection{Phase transition of BaTiO3 singe crystal}
+\subsection{Domain structures of PbTiO3 single crystal}
+\subsection{Domain switching and hysteresis loop of PbTiO3 single crystal}
+\subsection{Domain wall structures of BaTiO3}
+\subsection{Domain structures and phase diagram of epitaxial BaTiO3 films}
+\subsection{AFM tip-induced domain switching in (111)-BiFeO3 thin films}
+\subsection{Mechanical switching in BaTiO3 via flexoelectric effect}
+\subsection{Domain wall structure of BiFeO3 and oxygen octahedral rotation}
+
+\section{Sources of errors}
+\section{FAQ}
+
+\end{document}

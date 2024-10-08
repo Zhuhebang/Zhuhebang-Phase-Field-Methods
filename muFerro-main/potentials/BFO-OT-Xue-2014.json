@@ -1,0 +1,42 @@
+{
+	"name": "BiFeO3",
+	"Comment": "BFO potential with oxygen octahedral rotation",
+	"Reference": "Xue F. et al., PRB 2014, 90 (22)",
+	"Prerequisite":{
+		"CurieT": "1193"
+	},
+	"Normalizer": {
+		"P0": "0.52",
+		"Q0": "0.14"
+	},
+	"Landau": {
+		"a1": "4.0*10^5*(TEM-CurieT)",
+		"a11": "3.0*10^8",
+		"a12": "1.188*10^8"
+	},
+	"Electrostrictive": {
+		"Q11": "0.057",
+		"Q12": "-0.02",
+		"Q44": "0.002932"
+	},
+	"ElasticStiffness": {
+		"C11": "2.280e11",
+		"C12": "1.28e11",
+		"C44": "0.65e11"
+	},
+	"OctahedralRotation": {
+		"b1": "6*10^6*(TEM-1198)",
+		"b11": "3.440*10^10",
+		"b12": "6.799*10^10"
+	},
+	"Rotostrictive": {
+		"L11": "0.08416",
+		"L12": "-0.092",
+		"L44": "1.2768"
+	},
+	"PolarRotoCoupling": {
+		"t11": "4.532e9",
+		"t12": "2.266e9",
+		"t44": "-4.840e9"
+	}
+}
